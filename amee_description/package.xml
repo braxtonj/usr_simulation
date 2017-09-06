@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>amee_description</name>
+  <version>0.0.0</version>
+  <description>The amee_description package</description>
+
+  <license>MIT</license>
+
+  <maintainer email="mattwilsonmbw@gmail.com">Matthew Wilson</maintainer>
+  <author email="mattwilsonmbw@gmail.com">Matthew Wilson</author>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+
+  <export>
+  </export>
+</package>
