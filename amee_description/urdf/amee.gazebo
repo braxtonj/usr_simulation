@@ -8,8 +8,23 @@
     </plugin>
   </gazebo>
 
-
 	  <!--
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>/</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>imu_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+</gazebo>
+-->
+
   <gazebo>
   <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
     <alwaysOn>true</alwaysOn>
@@ -20,31 +35,12 @@
     <updateRate>20.0</updateRate>
   </plugin>
 </gazebo>
--->
-<!--
-  <gazebo>
-  <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
-    <robotNamespace>/</robotNamespace>
-    <updateRate>50.0</updateRate>
-    <bodyName>imu_link</bodyName>
-    <topicName>imu/data</topicName>
-    <xyzOffset>0 0 0</xyzOffset>
-    <rpyOffset>0 0 0</rpyOffset>
-    <accelDrift>0.005 0.005 0.005</accelDrift>
-    <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
-    <rateDrift>0.005 0.005 0.005 </rateDrift>
-    <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
-    <headingDrift>0.005</headingDrift>
-    <headingGaussianNoise>0.005</headingGaussianNoise>
- </plugin>
-</gazebo> -->
 
   <!-- links -->
 
   <gazebo reference="chassis">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
-    <max_vel>0.01</max_vel>
     <material>Gazebo/Grey</material>
   </gazebo>
   <gazebo reference="sled_hoz">
@@ -86,10 +82,68 @@
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
+
+ <gazebo reference="ZED_left_camera">
+    <sensor type="multicamera" name="stereo_camera">
+      <update_rate>30.0</update_rate>
+      <camera name="left">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <camera name="right">
+        <pose>0 -0.07 0 0 0 0</pose>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>zed/camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>left_camera_optical_frame</frameName>
+        <!--<rightFrameName>right_camera_optical_frame</rightFrameName>-->
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+
   <!-- camera -->
   <!-- TODO: try to get the openni plugin working. This is currently a standard camera. -->
 <!--  <gazebo reference="ir_camera">
-      <max_vel>0.01</max_vel>
       <update_rate>30.0</update_rate>
       <sensor type="camera" name="camera1">
       <camera name="head">

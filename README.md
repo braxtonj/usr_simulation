@@ -3,6 +3,40 @@
 These packages contain the code specific to running the robot in simulation. The
 urdf from the amee package is also required.
 
+## Dependencies
+
+```bash
+
+# TODO: add others
+
+sudo apt-get install ros-kinetic-ros-control
+sudo apt-get install ros-kinetic-hector-gazebo-plugins # for imu sim
+
+```
+
+### amee_sim_control
+This package contains ros controllers that allow you to actually move the robot
+in simulation.
+
+To drive the robot base in simulation with a keyboard:
+```
+roslaunch amee_sim_control drive.launch
+```
+
+To use a controller, see the `joy_teleop.launch`. You may need to edit some
+parameters.
+
+
+Or, you can drive it via your own code/topics with `gazebo_and_control.launch`.
+You can publish to `/amee_arm_position_controller/command` (arm joint) or
+`/amee_velocity_controller/cmd_vel` (driving).
+
+
+```
+roslaunch amee_sim_control gazebo_and_control.launch
+
+```
+
 ### amee_description
 
 This packages hosts the urdf description of the robot and a launch file to
@@ -26,18 +60,6 @@ use nasa_arena. Note: this requires more resources and if you contact the walls,
 you fly far away.
 
 You can also try messing around with custom worlds. See the gazebosim tutorials.
-
-
-### amee_sim_control
-This package contains ros controllers that allow you to actually move the robot
-in simulation.
-
-To drive the robot base in simulation with a keyboard:
-`roslaunch amee_sim_control drive.launch`
-
-To use a controller, see the `joy_teleop.launch`. You may need to edit some
-parameters.
-
 
 
 ### TODOS
