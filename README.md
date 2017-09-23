@@ -1,18 +1,70 @@
 # The Simulation packages
 
-These packages contain the code specific to running the robot in simulation. The
-urdf from the amee package is also required.
+These packages contain the code specific to running the robot in simulation.
 
-## Dependencies
 
-```bash
+## Getting started
 
-# TODO: add others
+You should have Gazebo installed if you chose to install
+ros-kinetic-desktop-full (recommended). You can test this with:
+```
+$ gazebo
+```
 
-sudo apt-get install ros-kinetic-ros-control
-sudo apt-get install ros-kinetic-hector-gazebo-plugins # for imu sim
+If you do not have Gazebo, you will have to install it.  Google this. // TODO: give more instructions
+
+NOTE: If you are using a virtual machine, Gazebo will run pretty slow and may not
+work well at all.  
+
+If Gazebo does work alright for you, then you can continue. First, install
+all of the dependencies:
 
 ```
+sudo apt-get install ros-kinetic-joy
+sudo apt-get install ros-kinetic-navigation
+sudo apt-get install ros-kinetic-robot-localization
+sudo apt-get install ros-kinetic-ros-control
+sudo apt-get install ros-kinetic-ros-controllers
+sudo apt-get install ros-kinetic-hector-gazebo-plugins # for imu sim
+```
+
+Then, clone the repo and try to build it. If you have any trouble,
+please contact Matt. It should work, but if it doesn't, we want to
+know why.
+
+```
+git clone https://github.com/utahrobotics/usr_simulation.git
+mv usr_simulation ~/catkin_ws/src
+cd ~/catkin_ws; catkin_make
+```
+
+
+If you want to mess around with the aruco marker detection,
+you will also have to clone that repo as well:
+```
+git clone https://github.com/utahrobotics/aruco_pkgs.git
+mv aruco_pkgs ~/catkin_ws/src
+cd ~/catkin_ws; catkin_make
+```
+
+
+If you are able to make everything, then try:
+```
+roslaunch amee_sim_control gazebo_and_control.launch
+```
+
+
+This should open up a simulation of the robot that you can control.
+You can look at all the topics with:
+```
+rostopic list
+```
+
+Try publishing a message to the `/cmd/vel` topic:
+```
+rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <TAB><TAB>
+```
+
 
 ### amee_sim_control
 This package contains ros controllers that allow you to actually move the robot

@@ -26,15 +26,15 @@
 -->
 
   <gazebo>
-  <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
-    <alwaysOn>true</alwaysOn>
-    <bodyName>imu_link</bodyName>
-    <topicName>imu/data</topicName>
-    <serviceName>imu_service</serviceName>
-    <gaussianNoise>0.0</gaussianNoise>
-    <updateRate>20.0</updateRate>
-  </plugin>
-</gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_link</bodyName>
+      <topicName>imu/data</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>20.0</updateRate>
+    </plugin>
+  </gazebo>
 
   <!-- links -->
 
@@ -89,8 +89,8 @@
       <camera name="left">
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -107,8 +107,8 @@
         <pose>0 -0.07 0 0 0 0</pose>
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -120,6 +120,16 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
+		<!--
+          <distortion>
+            <k1>-0.17</k1>
+            <k2>0.02</k2>
+            <k3>-0.000225</k3>
+            <p1>-0.0008</p1>
+            <p2>0.0</p2>
+            <center>0.0 0.0</center>
+          </distortion>
+		-->
       </camera>
       <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
         <alwaysOn>true</alwaysOn>
