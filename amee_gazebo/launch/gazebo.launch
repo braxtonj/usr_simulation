@@ -34,6 +34,19 @@ the documentation for roslaunch. http://wiki.ros.org/roslaunch/XML -->
       </include>
   </group>
 
+  <group if="$(eval arg('world') == 'chessboard')">
+    <arg name="world_path" value="$(find amee_gazebo)/worlds/chessboard.world"/>
+      <!-- Launch Gazebo according to the world chosen -->
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="0" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="paused" value="$(arg paused)" />
+        <!-- <arg name="headless" value="$(arg headless)" /> -->
+        <arg name="world_name" value="$(arg world_path)" />
+      </include>
+  </group>
+
   <group if="$(eval arg('world') == 'nasa_dirt')">
     <arg name="world_path" value="$(find amee_gazebo)/worlds/nasa_arena_dirt.world"/>
       <!-- Launch Gazebo according to the world chosen -->
