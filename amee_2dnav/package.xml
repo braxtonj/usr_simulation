@@ -40,10 +40,12 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>aruco_mapping</build_depend>
   <build_depend>amee_description</build_depend>
   <build_depend>amee_gazebo</build_depend>
   <build_depend>amee_sim_control</build_depend>
   <build_depend>move_base</build_depend>
+  <run_depend>aruco_mapping</run_depend>
   <run_depend>amee_description</run_depend>
   <run_depend>amee_gazebo</run_depend>
   <run_depend>amee_sim_control</run_depend>

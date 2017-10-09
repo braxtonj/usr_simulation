@@ -26,6 +26,8 @@ sudo apt-get install ros-kinetic-robot-localization
 sudo apt-get install ros-kinetic-ros-control
 sudo apt-get install ros-kinetic-ros-controllers
 sudo apt-get install ros-kinetic-hector-gazebo-plugins # for imu sim
+sudo apt-get install ros-kinetic-move-base
+sudo apt-get install ros-kinetic-dwa-local-planner
 ```
 
 Then, clone the repo and try to build it. If you have any trouble,

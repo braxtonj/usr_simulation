@@ -8,6 +8,7 @@ project(amee_2dnav)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  aruco_mapping
   amee_description
   amee_gazebo
   amee_sim_control
@@ -106,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES amee_2dnav
-#  CATKIN_DEPENDS amee_description amee_gazebo amee_sim_control move_base
+#  CATKIN_DEPENDS aruco_mapping amee_description amee_gazebo amee_sim_control move_base
 #  DEPENDS system_lib
 )
 
