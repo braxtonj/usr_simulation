@@ -7,6 +7,7 @@
   <arg name="headless" default="false" />
   <!-- The world choice (nasa or empty) -->
   <arg name="world" default="nasa" />
+  <param name ="use_sim_time" value="$(arg use_sim_time)"/>
 
 <!--
 TODO: make it possible to launch any of the orientations that we can encounter in the competition.
