@@ -67,6 +67,24 @@ Try publishing a message to the `/cmd/vel` topic:
 rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <TAB><TAB>
 ```
 
+### amee_2dnav
+This package holds configuration files for the ROS [navigation stack](http://wiki.ros.org/navigation).
+
+You can set a move goal in RViz and the robot will go it.  To run this, you
+will need to install the aruco_pkgs as described above.
+
+```
+roslaunch amee_2dnav amee_configuration.launch
+```
+and in a new terminal
+
+```
+roslaunch amee_2dnav move_base.launch
+```
+
+Then open up `rviz` and click with the 2D Nav Goal button to get the robot
+to go to a certain place on the map.
+
 
 ### amee_sim_control
 This package contains ros controllers that allow you to actually move the robot
