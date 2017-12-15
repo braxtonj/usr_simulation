@@ -20,14 +20,27 @@ If Gazebo does work alright for you, then you can continue. First, install
 all of the dependencies:
 
 ```
-sudo apt-get install ros-kinetic-joy
-sudo apt-get install ros-kinetic-navigation
-sudo apt-get install ros-kinetic-robot-localization
-sudo apt-get install ros-kinetic-ros-control
-sudo apt-get install ros-kinetic-ros-controllers
-sudo apt-get install ros-kinetic-hector-gazebo-plugins # for imu sim
-sudo apt-get install ros-kinetic-move-base
-sudo apt-get install ros-kinetic-dwa-local-planner
+sudo apt-get -y install ros-kinetic-joy \
+ros-kinetic-navigation \
+ros-kinetic-robot-localization \
+ros-kinetic-ros-control \
+ros-kinetic-ros-controllers \
+ros-kinetic-hector-gazebo-plugins # for imu sim \
+ros-kinetic-move-base \
+ros-kinetic-dwa-local-planner \
+ros-kinetic-gazebo-ros-pkgs  \
+ros-kinetic-gazebo-ros-control \
+ros-kinetic-joint-state-controller \
+ros-kinetic-effort-controllers \
+ros-kinetic-position-controllers \
+ros-kinetic-diff-drive-controller \
+ros-kinetic-hector-gazebo-plugins
+```
+
+Also clone the aruco_pkgs repo:
+```
+git clone https://github.com/utahrobotics/aruco_pkgs.git
+mv aruco_pkgs ~/catkin_ws/src
 ```
 
 Then, clone the repo and try to build it. If you have any trouble,
@@ -41,18 +54,16 @@ cd ~/catkin_ws; catkin_make
 ```
 
 
-If you want to mess around with the aruco marker detection,
-you will also have to clone that repo as well:
-```
-git clone https://github.com/utahrobotics/aruco_pkgs.git
-mv aruco_pkgs ~/catkin_ws/src
-cd ~/catkin_ws; catkin_make
-```
-
-
 If you are able to make everything, then try:
 ```
 roslaunch amee_sim_control gazebo_and_control.launch
+```
+
+You can also try driving it (if you have a controller) with:
+NOTE: you will need to edit the launch config file to match whatever
+controller you have.  It is currently set to PS3.
+```
+roslaunch amee_sim_control joy_teleop.launch
 ```
 
 

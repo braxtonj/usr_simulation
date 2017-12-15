@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+<!--
+Usage is: roslaunch joy_drive.launch <arg_name>:=<value>, where arg_name is the name=. ex. input:=js1
+-->
+<arg name="world" default="nasa" /> <!-- other option is: empty -->
+<arg name="paused" default="false" />
+<arg name="gui" default="true" />
+<arg name="debug" default="0" />
+
+<rosparam param="debug" subst_value="True">$(arg debug)</rosparam>
+
+<!-- Start the gazebo world -->
+<include file="$(find amee_gazebo)/launch/gazebo.launch">
+  <arg name="world" default="$(arg world)" />
+  <arg name="paused" default="$(arg paused)" />
+  <arg name="gui" default="$(arg gui)" />
+</include>
+
+<!-- Launch the controllers -->
+<include file="$(find amee_sim_control)/launch/control.launch" />
+
+</launch>

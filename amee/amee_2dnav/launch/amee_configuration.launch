@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="gui" default="true" />
+	<include file="$(find aruco_mapping)/launch/aruco_mapping.launch"/>
+	<include file="$(find amee_sim_control)/launch/gazebo_and_control.launch">
+		<arg name="gui" default="$(arg gui)" />
+	</include>
+</launch>

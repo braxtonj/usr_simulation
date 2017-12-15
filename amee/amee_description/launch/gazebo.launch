@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="use_sim_time" default="true" />
+  <arg name="paused" default="false"/>
+  <arg name="model" default="$(find amee_description)/urdf/amee.urdf.xacro"/>
+  <arg name="gui" default="true" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="paused" value="$(arg paused)" />
+  </include>
+ 
+  <!-- Load the URDF model  -->
+  <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(arg model)" />
+
+  <!-- Start the urdf gazebo spawner -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model amee -param robot_description" />
+</launch>

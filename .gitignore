@@ -1,3 +1,7 @@
+*.swp
+*.swo
+
+# ROS stuff 
 build/
 bin/
 lib/
@@ -47,6 +51,3 @@ qtcreator-*
 CATKIN_IGNORE
 
 
-
-*.swp
-*.swo

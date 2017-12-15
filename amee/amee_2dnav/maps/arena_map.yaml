@@ -1,0 +1,12 @@
+image: arena_map.pgm
+resolution: 0.010000
+origin: [-2.52, -8.01, 0.0]
+#origin: [-2.42, -7.58, 0.0]
+#origin: [-0.1, -2.0, 0.000000]
+#origin: [-2.35038, 3.52531, 0.000000]
+negate: 0
+occupied_thresh: 0.5
+free_thresh: 0.1
+
+
+
