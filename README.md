@@ -56,7 +56,7 @@ cd ~/catkin_ws; catkin_make
 
 If you are able to make everything, then try:
 ```
-roslaunch amee_sim_control gazebo_and_control.launch
+roslaunch amee_sim_control full_no_teleop.launch
 ```
 
 You can also try driving it (if you have a controller) with:
@@ -110,13 +110,13 @@ To use a controller, see the `joy_teleop.launch`. You may need to edit some
 parameters.
 
 
-Or, you can drive it via your own code/topics with `gazebo_and_control.launch`.
+Or, you can drive it via your own code/topics with `full_no_teleop.launch`.
 You can publish to `/amee_arm_position_controller/command` (arm joint) or
 `/amee_velocity_controller/cmd_vel` (driving).
 
 
 ```
-roslaunch amee_sim_control gazebo_and_control.launch
+roslaunch amee_sim_control full_no_teleop.launch
 
 ```
 

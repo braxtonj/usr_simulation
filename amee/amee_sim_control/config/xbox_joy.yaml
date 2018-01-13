@@ -4,10 +4,12 @@ joy_config:
     left_ver: 1
     right_hoz: 2
     right_ver: 3
-    lt: 2
-    rt: 5
   buttons:
+    lt: TODO
+    rt: TODO
     a: 0
     y: 3
     lb: 4
     rb: 5
+    select: TODO
+    start: TODO

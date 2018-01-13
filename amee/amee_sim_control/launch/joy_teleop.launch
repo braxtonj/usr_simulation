@@ -1,19 +1,22 @@
 <?xml version="1.0"?>
 <launch>
-<!-- Takes joy message and translates them to the correct Twist message -->
-<node pkg="amee_sim_control" type="joy_teleop" name="joy_teleop_node" output="screen"/>
 
 <!--
 Usage is: roslaunch joy_drive.launch <arg_name>:=<value>, where arg_name is the name=. ex. input:=js1
 -->
-<arg name="world" default="nasa" /> <!-- other option is: empty -->
-<arg name="controller" default="ps3" /> <!-- other option is: ps3 -->
+<arg name="world" default="nasa" /> <!-- options are [nasa, empty] -->
+<arg name="controller" default="matt_pc" /> <!-- options are [ps3, xbox, matt_pc] -->
 <arg name="input" default="js1" />
 <arg name="paused" default="false" />
 <arg name="gui" default="true" />
 <arg name="debug" default="0" />
-
 <rosparam param="debug" subst_value="True">$(arg debug)</rosparam>
+
+<!-- choose to load xbox or ps3 config. use: roslaunch joy_drive.launch controller:=xbox -->
+<rosparam command="load" file="$(find amee_sim_control)/config/$(arg controller)_joy.yaml" />
+
+<node pkg="topic_tools" type="mux" name="mux_cmd_vel" output="screen"
+	args="cmd_vel joystick_cmd_vel move_base_cmd_vel mux:=mux_cmd_vel"/>
 
 <!-- Start the gazebo world -->
 <include file="$(find amee_gazebo)/launch/gazebo.launch">
@@ -30,14 +33,10 @@ Usage is: roslaunch joy_drive.launch <arg_name>:=<value>, where arg_name is the 
        type="joy_node" name="joy_node" >
    <param name="dev" type="string" value="/dev/input/$(arg input)"/>
    <param name="deadzone" value="0.12" />
+   <param name="autorepeat_rate" value="30.0"/>
  </node>
 
-<!-- choose to load xbox or ps3 config. use: roslaunch joy_drive.launch controller:=xbox -->
-<group if="$(eval arg('controller') == 'xbox')">
-  <rosparam command="load" file="$(find amee_sim_control)/config/xbox_joy.yaml" />
-</group>
-<group if="$(eval arg('controller') == 'ps3')">
-  <rosparam command="load" file="$(find amee_sim_control)/config/ps3_joy.yaml" />
-</group>
+<!-- Takes joy message and translates them to the correct Twist message -->
+<node pkg="amee_sim_control" type="joy_teleop" name="joy_teleop_node" output="screen"/>
 
 </launch>

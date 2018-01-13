@@ -1,0 +1,15 @@
+joy_config:
+  axes:
+    left_hoz: 0
+    left_ver: 1
+    right_hoz: 3
+    right_ver: 4
+  buttons:
+    lt: 6
+    rt: 7
+    a: 0
+    y: 2
+    lb: 4
+    rb: 5
+    select: 8
+    start: 9

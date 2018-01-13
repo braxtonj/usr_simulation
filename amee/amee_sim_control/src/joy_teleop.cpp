@@ -3,6 +3,7 @@
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>
 #include <control_msgs/JointControllerState.h>
+#include <std_msgs/Empty.h>
 #include <std_msgs/Float64.h>
 
 // JoyTeleop takes a joy message and converts it into robot commands.
@@ -30,8 +31,7 @@ private:
   double bucket_max_vel;
   double sled_max_vel;
   int left_hoz, left_ver, right_hoz, right_ver; //joystick axes
-  int lt, rt; //button axes
-  int y_button, a_button, lb, rb; //buttons
+  int y_button, a_button, lb, rb, lt, rt, start_button, select_button; //buttons
   // positions
   double arm_min; double arm_max;
   double bucket_min; double bucket_max;
@@ -44,10 +44,12 @@ private:
   double prev_arm;
   double prev_bucket;
   double prev_sled;
+  // previous state of start button
+  bool prev_start_button;
+  bool prev_select_button;
   // ROS stuff
   ros::Subscriber joy_sub; //joystick
-  ros::Publisher vel_pub; //diff drive velocity
-
+  ros::Publisher vel_pub; //diff drive velocity 
 // Subscibe to the states of the position controllers to see where they are,
 // and send a differential command based on that. This is only used because we are teleop-ing.
   ros::Subscriber arm_state_sub; //arm state
@@ -56,6 +58,8 @@ private:
   ros::Publisher bucket_pub; //bucket command pub
   ros::Subscriber sled_state_sub; //sled state
   ros::Publisher sled_pub; //sled command pub
+  ros::Publisher start_button_pub; //start button pub
+  ros::Publisher select_button_pub; //select button pub
 };
 
 
@@ -93,21 +97,23 @@ JoyTeleop::JoyTeleop() {
     nh.getParam("/joy_config/axes/left_ver", left_ver);
     nh.getParam("/joy_config/axes/right_hoz", right_hoz);
     nh.getParam("/joy_config/axes/right_ver", right_ver);
-    nh.getParam("/joy_config/axes/rt", rt);
-    nh.getParam("/joy_config/axes/lt", lt);
-
+    nh.getParam("/joy_config/buttons/rt", rt);
+    nh.getParam("/joy_config/buttons/lt", lt);
     nh.getParam("/joy_config/buttons/a", a_button);
     nh.getParam("/joy_config/buttons/y", y_button);
     nh.getParam("/joy_config/buttons/lb", lb);
     nh.getParam("/joy_config/buttons/rb", rb);
+    nh.getParam("/joy_config/buttons/start", start_button);
+    nh.getParam("/joy_config/buttons/select", select_button);
 
-    //pubs and subs
-    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy", 10, &JoyTeleop::joyCallback, this);
-    vel_pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 10);
+	joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy", 10, &JoyTeleop::joyCallback, this);
+    vel_pub = nh.advertise<geometry_msgs::Twist>("/joystick_cmd_vel", 10);
 
     arm_pub = nh.advertise<std_msgs::Float64>("/amee_arm_position_controller/command", 10);
     bucket_pub = nh.advertise<std_msgs::Float64>("/amee_bucket_position_controller/command", 10);
     sled_pub = nh.advertise<std_msgs::Float64>("/amee_sled_position_controller/command", 10);
+	start_button_pub = nh.advertise<std_msgs::Empty>("/click_start_button", 10);
+    select_button_pub = nh.advertise<std_msgs::Empty>("/click_select_button", 10);
 
     arm_state_sub = nh.subscribe<control_msgs::JointControllerState>("/amee_arm_position_controller/state", 10, &JoyTeleop::armStateCallback, this);
     bucket_state_sub = nh.subscribe<control_msgs::JointControllerState>("/amee_bucket_position_controller/state", 10, &JoyTeleop::bucketStateCallback, this);
@@ -145,9 +151,11 @@ void JoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   std_msgs::Float64 bucket_command;
   std_msgs::Float64 sled_command;
 
-  float arm_diff = arm_max_vel * (((joy->axes[rt]+1)/2.) - ((joy->axes[lt]+1)/2.));
+  bool curr_start_button = joy->buttons[start_button];
+  bool curr_select_button = joy->buttons[select_button];
+  float arm_diff = (joy->buttons[lt] - joy->buttons[rt]) * arm_max_vel;
   float sled_diff = (joy->buttons[y_button] - joy->buttons[a_button]) * sled_max_vel;
-  float bucket_diff = (joy->buttons[rb] - joy->buttons[lb]) * bucket_max_vel;
+  float bucket_diff = (joy->buttons[lb] - joy->buttons[rb]) * bucket_max_vel;
 
 
   //Add the new command from the joystick and make sure it is in the moveable range
@@ -175,7 +183,15 @@ void JoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   ROS_DEBUG_STREAM("bucket_command = " << bucket_command.data);
   ROS_DEBUG_STREAM("sled_command = " << sled_command.data);
 
-
+  // publish start and select button clicks
+  if (curr_start_button != prev_start_button && curr_start_button == 1) {
+      start_button_pub.publish(std_msgs::Empty());
+  }
+  prev_start_button = curr_start_button;
+  if (curr_select_button != prev_select_button && curr_select_button == 1) {
+      select_button_pub.publish(std_msgs::Empty());
+  }
+  prev_select_button = curr_select_button;
 
   arm_pub.publish(arm_command);
   bucket_pub.publish(bucket_command);

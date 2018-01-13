@@ -3,7 +3,7 @@
 # Publish all joint states -----------------------------------
 amee_joint_state_controller:
   type: joint_state_controller/JointStateController
-  publish_rate: 50
+  publish_rate: 30
 
 # Position Controllers ---------------------------------------
 # I tuned these pid gains roughly, by hand. The gains had to be set pretty high
@@ -29,7 +29,7 @@ amee_velocity_controller:
   type: "diff_drive_controller/DiffDriveController"
   left_wheel: ['left_front_wheel', 'left_rear_wheel']
   right_wheel: ['right_front_wheel', 'right_rear_wheel']
-  publish_rate: 50 #Hz
+  publish_rate: 30 #Hz
 
   base_frame_id: base_link
 
